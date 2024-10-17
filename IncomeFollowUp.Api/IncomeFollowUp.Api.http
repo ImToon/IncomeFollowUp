@@ -1,0 +1,6 @@
+@IncomeFollowUp.Api_HostAddress = http://localhost:5261
+
+GET {{IncomeFollowUp.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

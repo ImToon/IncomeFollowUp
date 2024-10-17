@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IncomeFollowUp.Api", "IncomeFollowUp.Api\IncomeFollowUp.Api.csproj", "{5D3531DC-7413-4768-9F73-993F2D734F9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IncomeFollowUp.Infrastructure", "IncomeFollowUp.Infrastructure\IncomeFollowUp.Infrastructure.csproj", "{C5BFB7CF-1C25-4DB1-ABD3-B5C24FC3E683}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IncomeFollowUp.Domain", "IncomeFollowUp.Domain\IncomeFollowUp.Domain.csproj", "{87FCC2AD-C37A-4E08-8677-0B90763B9BB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IncomeFollowUp.Contract", "IncomeFollowUp.Contract\IncomeFollowUp.Contract.csproj", "{EE99A4DC-E07E-47BB-8008-867C9C5EC7DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IncomeFollowUp.Application", "IncomeFollowUp.Application\IncomeFollowUp.Application.csproj", "{5EEE75A1-15FD-4133-BB32-6B9B41DE4E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IncomeFollowUp.Ui", "IncomeFollowUp.Ui\IncomeFollowUp.Ui.csproj", "{758773F1-D1DC-4CAC-8303-BD9A90D7ECB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D3531DC-7413-4768-9F73-993F2D734F9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D3531DC-7413-4768-9F73-993F2D734F9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D3531DC-7413-4768-9F73-993F2D734F9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D3531DC-7413-4768-9F73-993F2D734F9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5BFB7CF-1C25-4DB1-ABD3-B5C24FC3E683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5BFB7CF-1C25-4DB1-ABD3-B5C24FC3E683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5BFB7CF-1C25-4DB1-ABD3-B5C24FC3E683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5BFB7CF-1C25-4DB1-ABD3-B5C24FC3E683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87FCC2AD-C37A-4E08-8677-0B90763B9BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87FCC2AD-C37A-4E08-8677-0B90763B9BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87FCC2AD-C37A-4E08-8677-0B90763B9BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87FCC2AD-C37A-4E08-8677-0B90763B9BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE99A4DC-E07E-47BB-8008-867C9C5EC7DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE99A4DC-E07E-47BB-8008-867C9C5EC7DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE99A4DC-E07E-47BB-8008-867C9C5EC7DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE99A4DC-E07E-47BB-8008-867C9C5EC7DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEE75A1-15FD-4133-BB32-6B9B41DE4E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEE75A1-15FD-4133-BB32-6B9B41DE4E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEE75A1-15FD-4133-BB32-6B9B41DE4E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEE75A1-15FD-4133-BB32-6B9B41DE4E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758773F1-D1DC-4CAC-8303-BD9A90D7ECB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758773F1-D1DC-4CAC-8303-BD9A90D7ECB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758773F1-D1DC-4CAC-8303-BD9A90D7ECB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758773F1-D1DC-4CAC-8303-BD9A90D7ECB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
