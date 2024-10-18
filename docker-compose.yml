@@ -1,1 +1,28 @@
-# Build docker compose
+version: '3.8'
+
+services:
+  income-follow-up-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: income-follow-up-container
+    depends_on:
+      - income-follow-up-sqlserver
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=income-follow-up-sqlserver;Database=IncomeFollowUp;User=sa;Password=Your_password123;TrustServerCertificate=True
+  income-follow-up-sqlserver:
+    container_name: income-follow-up-sqlserver-container
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Your_password123
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:

@@ -2,6 +2,7 @@ using IncomeFollowUp.Infrastructure;
 using IncomeFollowUp.Application;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using IncomeFollowUp.Api.Common.Errors;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseWebAssemblyDebugging();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<IncomeFollowUpContext>();
+    dbContext.Database.Migrate();
 }
 
 app.UseExceptionHandler("/error");

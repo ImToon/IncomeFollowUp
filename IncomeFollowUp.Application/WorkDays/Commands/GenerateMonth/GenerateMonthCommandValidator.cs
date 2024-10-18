@@ -15,6 +15,13 @@ public class GenerateMonthCommandValidator : AbstractValidator<GenerateMonthComm
         RuleFor(x => x)
             .MustAsync(async (x, cancellationToken) =>
             {
+                return !await dbContext.WorkDays.AnyAsync(wd => wd.Date.Month == x.Month && wd.Date.Year == x.Year, cancellationToken);
+            })
+            .WithMessage("This month has already been generated.");
+
+        RuleFor(x => x)
+            .MustAsync(async (x, cancellationToken) =>
+            {
                 var settings = await dbContext.Settings.FirstOrDefaultAsync(cancellationToken);
                 return settings != null;
             })

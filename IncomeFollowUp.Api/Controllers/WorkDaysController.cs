@@ -1,6 +1,7 @@
 using IncomeFollowUp.Application.WorkDays.Commands.GenerateMonth;
 using IncomeFollowUp.Application.WorkDays.Commands.UpdateWorkDays;
 using IncomeFollowUp.Application.WorkDays.Queries.GetWorkDays;
+using IncomeFollowUp.Application.WorkDays.Queries.GetWorkDaysSummary;
 using IncomeFollowUp.Contract;
 using MapsterMapper;
 using MediatR;
@@ -17,6 +18,13 @@ namespace IncomeFollowUp.Api.Controllers
         {
             var workDays = await sender.Send(new GetWorkDaysQuery { Year = year, Month = month });
             return Ok(mapper.Map<IEnumerable<WorkDayDto>>(workDays));
+        }
+
+        [HttpGet("summary")]
+        public async Task <IActionResult> GetSummary()
+        {
+            var workDaysSummary = await sender.Send(new GetWorkDaysSummaryQuery());
+            return Ok(mapper.Map<IEnumerable<WorkDaysSummaryDto>>(workDaysSummary));
         }
 
         [HttpPost("{year:int}/{month:int}")]
