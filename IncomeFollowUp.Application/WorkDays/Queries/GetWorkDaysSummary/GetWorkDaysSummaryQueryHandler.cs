@@ -10,7 +10,7 @@ public class GetWorkDaysSummaryQueryHandler(IncomeFollowUpContext dbContext) : I
     {
         var minDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(-7);
         var maxDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-        var workDays = await dbContext.WorkDays.Where(w => w.Date >= minDate && w.Date < maxDate).ToListAsync(cancellationToken);
+        var workDays = await dbContext.WorkDays.Where(w => w.Date >= minDate && w.Date < maxDate && w.IsWorkDay).ToListAsync(cancellationToken);
         
         return workDays
             .OrderBy(wd => wd.Date)

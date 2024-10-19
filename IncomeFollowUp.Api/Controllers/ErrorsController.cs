@@ -4,11 +4,10 @@ using IncomeFollowUp.Application.Common.Exceptions;
 
 namespace IncomeFollowUp.Api.Controllers;
 
-[ApiController()]
+[ApiController]
 [Route("/error")]
 public class ErrorsController : ControllerBase
 {
-
     [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Error()
     {
