@@ -9,7 +9,7 @@ public class UpdateWorkDaysCommandHandler(IncomeFollowUpContext dbContext) : IRe
 {
     public async Task<IEnumerable<WorkDay>> Handle(UpdateWorkDaysCommand request, CancellationToken cancellationToken)
     {
-        
+
         List<WorkDay> workDays = await dbContext.WorkDays.Where(wd => request.UpdateWorkDayCommands.Select(c => c.Id).ToList().Contains(wd.Id)).ToListAsync(cancellationToken);
 
         foreach(var command in request.UpdateWorkDayCommands)

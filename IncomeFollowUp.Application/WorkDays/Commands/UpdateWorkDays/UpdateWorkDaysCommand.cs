@@ -3,13 +3,5 @@ using MediatR;
 
 namespace IncomeFollowUp.Application.WorkDays.Commands.UpdateWorkDays;
 
-public class UpdateWorkDayCommand
-{
-    public Guid Id { get; set; }
-    public bool IsWorkDay { get; set; }
-}
-
-public class UpdateWorkDaysCommand : IRequest<IEnumerable<WorkDay>>
-{
-    public IEnumerable<UpdateWorkDayCommand> UpdateWorkDayCommands { get; set; } = null!;    
-}
+public record UpdateWorkDayCommand(Guid Id, bool IsWorkDay);
+public record UpdateWorkDaysCommand(IEnumerable<UpdateWorkDayCommand> UpdateWorkDayCommands = null!) : IRequest<IEnumerable<WorkDay>>;
