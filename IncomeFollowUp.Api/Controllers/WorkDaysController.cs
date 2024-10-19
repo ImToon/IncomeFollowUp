@@ -16,7 +16,7 @@ namespace IncomeFollowUp.Api.Controllers
         [HttpGet("{year:int}/{month:int}")]
         public async Task<IActionResult> GetWorkDays(int year, int month)
         {
-            var workDays = await sender.Send(new GetWorkDaysQuery { Year = year, Month = month });
+            var workDays = await sender.Send(new GetWorkDaysQuery(year, month));
             return Ok(mapper.Map<IEnumerable<WorkDayDto>>(workDays));
         }
 
@@ -30,7 +30,7 @@ namespace IncomeFollowUp.Api.Controllers
         [HttpPost("{year:int}/{month:int}")]
         public async Task<IActionResult> GenerateMonth(int year, int month)
         {
-            var workDays = await sender.Send(new GenerateMonthCommand { Year = year, Month = month });
+            var workDays = await sender.Send(new GenerateMonthCommand(year, month));
             return Ok(mapper.Map<IEnumerable<WorkDayDto>>(workDays));
         }
 
@@ -38,7 +38,7 @@ namespace IncomeFollowUp.Api.Controllers
         public async Task<IActionResult> UpdateWorkDays([FromBody]IEnumerable<UpdateWorkDayDto> workDaysUpdates)
         {
             var updateWorkDayCommands = mapper.Map<IEnumerable<UpdateWorkDayCommand>>(workDaysUpdates);
-            var workDays = await sender.Send(new UpdateWorkDaysCommand { UpdateWorkDayCommands = updateWorkDayCommands });
+            var workDays = await sender.Send(new UpdateWorkDaysCommand() with { UpdateWorkDayCommands = updateWorkDayCommands });
             return Ok(mapper.Map<IEnumerable<WorkDayDto>>(workDays));
         }
     }

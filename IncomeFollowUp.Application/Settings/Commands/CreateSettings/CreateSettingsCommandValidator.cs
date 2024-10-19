@@ -11,7 +11,7 @@ public class CreateSettingsCommandValidator : AbstractValidator<CreateSettingsCo
     {
         RuleFor(x => x.DailyRate)
             .GreaterThanOrEqualToWithMessage(0);
-     
+
         RuleFor(x => x.ExpectedMonthlyIncome)
             .GreaterThanOrEqualToWithMessage(0);
 

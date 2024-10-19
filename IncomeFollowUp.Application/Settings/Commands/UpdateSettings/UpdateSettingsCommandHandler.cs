@@ -1,6 +1,5 @@
 using MediatR;
 using IncomeFollowUp.Infrastructure;
-using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace IncomeFollowUp.Application.Settings.Commands.UpdateSettings;
