@@ -1,12 +1,9 @@
 using IncomeFollowUp.Contract;
-using IncomeFollowUp.Ui.Components;
 using IncomeFollowUp.Ui.Services;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace IncomeFollowUp.Ui.Pages;
-
-public partial class Home
+public partial class YearSummary
 {
     [Inject]
     public required WorkDaysService WorkDaysService { get; set; }
@@ -14,25 +11,33 @@ public partial class Home
     [Inject]
     public required NavigationManager NavigationManager { get; set; }
 
-    [Inject]
-    public required IDialogService DialogService { get; set; }
-
-    private readonly string[] headings = ["Month", "Total"];
-
+    public bool IsLoading { get; set; }
+    public int Year { get; set; } = DateTime.Now.Year;
     private IEnumerable<WorkDaysSummaryDto> WorkDaysSummaryDtos { get; set; } = [];
-    public int ExtraDays { get; set; }
+    private readonly string[] headings = ["Month", "Total"];
 
     protected override async Task OnInitializedAsync()
     {
-        WorkDaysSummaryDtos = await WorkDaysService.GetSummary(SummaryType.Monthly);
-        ExtraDays = await WorkDaysService.GetExtraDays();        
+        await Fetch();
     }
 
-    private Task<IDialogReference> OpenDialogAsync()
+    private async Task PreviousYear()
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true };
+        Year--;
+        await Fetch();
+    }
 
-        return DialogService.ShowAsync<CreateMonthDialog>("Simple Dialog", options);
+    private async Task NextYear()
+    {
+        Year++;
+        await Fetch();
+    }
+
+    private async Task Fetch()
+    {
+        IsLoading = true;
+        WorkDaysSummaryDtos = await WorkDaysService.GetSummary(SummaryType.Yearly, Year);
+        IsLoading = false;
     }
 
     private void NavigateToWorkDays(WorkDaysSummaryDto workDaysSummaryDto)

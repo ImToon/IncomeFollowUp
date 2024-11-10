@@ -1,16 +1,42 @@
 ﻿@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    <MudLayout>
+        <MudAppBar Elevation="1">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Inherit" Href="settings" />
+        </MudAppBar>
+        <MudDrawer @bind-Open="@_open" Variant="@DrawerVariant.Temporary" Elevation="1">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">Income follow up</MudText>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+                <MudNavLink Href="year" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.QueryStats">Year stats</MudNavLink>
+            </MudNavMenu>
+        </MudDrawer>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-6">
+                <main>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
 </div>
+
+@code{
+    private bool _open = false;
+
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
+}

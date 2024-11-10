@@ -10,7 +10,7 @@ public class GetWorkDaysQueryHandler(IncomeFollowUpContext dbContext) : IRequest
     public async Task<IEnumerable<WorkDay>> Handle(GetWorkDaysQuery request, CancellationToken cancellationToken)
     {
         return await dbContext.WorkDays
-            .Where(x => x.Date.Month == request.Month && x.Date.Year == request.Year)
-            .ToListAsync(cancellationToken);
+            .Where(x => x.Date.Year == request.Year && x.Date.Month == request.Month)
+            .ToArrayAsync(cancellationToken);
     }
 }

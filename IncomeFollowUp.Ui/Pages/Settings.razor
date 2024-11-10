@@ -1,0 +1,26 @@
+@page "/settings"
+
+@if(IsLoading)
+{
+    <div class="d-flex justify-center mt-5">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
+    </div>
+}
+else
+{
+    <div>
+        <MudNumericField @bind-Value="SettingsDto.DailyRate" Label="Daily rate" Variant="Variant.Text" Min="1" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.EuroSymbol" />
+    </div>
+    <div class="mt-5">
+        <MudNumericField @bind-Value="SettingsDto.ExpectedMonthlyIncome" Label="Expected monthly income" Variant="Variant.Text" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.EuroSymbol" />
+    </div>
+
+
+    @if (HasChanges)
+    {
+        <div class="mt-5">
+            <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Error" OnClick="ResetChanges">Reset</MudButton>
+            <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="SaveChanges">Save</MudButton>
+        </div>
+    }
+}

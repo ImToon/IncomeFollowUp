@@ -1,0 +1,22 @@
+<MudDialog>
+    <TitleContent>
+        Generate new work month
+    </TitleContent>
+    <DialogContent>
+        @if(IsLoading)
+        {
+            <div class="d-flex justify-center my-5">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
+            </div>
+        }
+        else
+        {
+            <MudNumericField @bind-Value="Month" Label="Month" Variant="Variant.Text" Min="1" Max="12" />
+            <MudNumericField class="mt-5" @bind-Value="Year" Label="Year" Variant="Variant.Text" Min="1900" Max="2100" />
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" Disabled="IsLoading">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="IsLoading">Create</MudButton>
+    </DialogActions>
+</MudDialog>

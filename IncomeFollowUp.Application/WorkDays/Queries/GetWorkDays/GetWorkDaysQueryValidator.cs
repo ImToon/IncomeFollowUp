@@ -9,5 +9,6 @@ public class GetWorkDaysQueryValidator : AbstractValidator<GetWorkDaysQuery>
     {
         RuleFor(x => x.Month)
             .SetValidator(new MonthValidator());
+
     }
 }

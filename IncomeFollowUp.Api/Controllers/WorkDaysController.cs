@@ -14,9 +14,9 @@ namespace IncomeFollowUp.Api.Controllers;
 [ApiController]
 public class WorkDaysController(ISender sender, IMapper mapper) : ControllerBase
 {
-    [HttpGet("{year:int}/{month:int}")]
+    [HttpGet("")]
     [ProducesResponseType(statusCode: 200, type: typeof(IEnumerable<WorkDayDto>))]
-    public async Task<IActionResult> GetWorkDays(int year, int month)
+    public async Task<IActionResult> GetWorkDays([FromQuery]int year, [FromQuery]int month)
     {
         var workDays = await sender.Send(new GetWorkDaysQuery { Year = year, Month = month });
         return Ok(mapper.Map<IEnumerable<WorkDayDto>>(workDays));
@@ -24,17 +24,17 @@ public class WorkDaysController(ISender sender, IMapper mapper) : ControllerBase
 
     [HttpGet("summary")]
     [ProducesResponseType(statusCode: 200, type: typeof(IEnumerable<WorkDaysSummaryDto>))]
-    public async Task<IActionResult> GetSummary()
+    public async Task<IActionResult> GetSummary([FromQuery] Contract.SummaryType summaryType, [FromQuery] int? year)
     {
-        var workDaysSummary = await sender.Send(new GetWorkDaysSummaryQuery());
+        var workDaysSummary = await sender.Send(new GetWorkDaysSummaryQuery { SummaryType = mapper.Map<Application.WorkDays.Queries.GetWorkDaysSummary.SummaryType>(summaryType), Year = year });
         return Ok(mapper.Map<IEnumerable<WorkDaysSummaryDto>>(workDaysSummary));
     }
 
-    [HttpGet("vacation")]
+    [HttpGet("extradays")]
     [ProducesResponseType(statusCode: 200, type: typeof(int))]
-    public async Task<IActionResult> GetVacation()
+    public async Task<IActionResult> GetExtraDays()
     {
-        var vacation = await sender.Send(new GetVacationQuery());
+        var vacation = await sender.Send(new GetExtraDaysQuery());
         return Ok(vacation);
     }
 

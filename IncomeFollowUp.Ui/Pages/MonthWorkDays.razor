@@ -1,0 +1,49 @@
+@page "/workdays"
+
+@if(IsLoading)
+{
+    <div class="d-flex justify-center mt-5">
+        <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
+    </div>
+}
+else
+{
+    @foreach(var week in WorkDaysByWeek)
+    {
+        <MudGrid class="my-2" Justify="Justify.Center">
+            @foreach(var day in week)
+            {
+                <MudItem>
+                    <div class="month-work-day">
+                        <MudPaper
+                            Elevation="1"
+                            onclick="@(() => SwitchWorkDay(day))"
+                            Style="@($"color:{Colors.Gray.Lighten5}; background:{(day.IsWorkDay ? Colors.Green.Darken2 : Colors.Red.Darken2)}; height: 100%;")"
+                        >
+                        <div style="font-weight: bold;" class="pl-2 pt-2">@day.Date.Day</div>
+                    </MudPaper>
+
+                    </div>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+
+    <div class="mt-5">
+        <h5>
+            @($"Total month : {TotalMonth} €")
+        </h5>
+    </div>
+    <div class="mt-5">
+        <h5>
+            @($"Total days : {TotalWorkDays} days")
+        </h5>
+    </div>
+    if (WorkDaysUpdates.Any())
+    {
+        <div class="mt-5">
+            <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Error" OnClick="ResetChanges">Reset</MudButton>
+            <MudButton Variant="Variant.Filled" Size="Size.Large" Color="Color.Primary" OnClick="SaveChanges">Save</MudButton>
+        </div>
+    }
+}

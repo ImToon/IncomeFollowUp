@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IncomeFollowUp.Application.WorkDays.Queries.GetVacation;
 
-public class GetVacationQueryHandler(IncomeFollowUpContext dbContext) : IRequestHandler<GetVacationQuery, int>
+public class GetExtraDaysQueryHandler(IncomeFollowUpContext dbContext) : IRequestHandler<GetExtraDaysQuery, int>
 {
-    public async Task<int> Handle(GetVacationQuery request, CancellationToken cancellationToken)
+    public async Task<int> Handle(GetExtraDaysQuery request, CancellationToken cancellationToken)
     {
         var minDate = new DateTime(DateTime.Now.Year, 1, 1);
-        var maxDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        var maxDate = new DateTime(DateTime.Now.Year + 1, 1, 1).AddDays(-1);
         var settings = await dbContext.Settings.FirstAsync(cancellationToken);
         var workDays = await dbContext.WorkDays.Where(w => w.Date >= minDate && w.Date < maxDate && w.IsWorkDay).ToListAsync(cancellationToken);
         

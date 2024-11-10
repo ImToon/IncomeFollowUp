@@ -1,6 +1,37 @@
 ﻿@page "/"
 @using ChartJs.Blazor
+@using IncomeFollowUp.Ui.Extensions
 
 <PageTitle>Home</PageTitle>
 
-<Chart Config="_config"></Chart>
+<h1>Past 6 months</h1>
+
+<MudSimpleTable Hover="true" Style="overflow-x: auto;">
+    <thead>
+        <tr>
+            @foreach (var h in headings)
+            {
+                <th>@h</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var workDaysSummaryDto in WorkDaysSummaryDtos)
+        {
+            <tr onclick="@(() => NavigateToWorkDays(workDaysSummaryDto))">
+                @foreach (var x in workDaysSummaryDto.GetRow().Split())
+                {
+                    <td>@x</td>
+                }
+            </tr>
+        }
+    </tbody>
+</MudSimpleTable>
+
+<div class="mt-5">
+    <h3>@ExtraDays extra day@(ExtraDays > 1 ? "s" : "") this year</h3>
+</div>
+
+<div class="float-button">
+    <MudFab OnClick="OpenDialogAsync" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" />
+</div>
