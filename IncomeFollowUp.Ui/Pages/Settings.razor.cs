@@ -1,6 +1,7 @@
 using IncomeFollowUp.Contract;
 using IncomeFollowUp.Ui.Services;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Newtonsoft.Json;
 
 namespace IncomeFollowUp.Ui.Pages;
@@ -8,23 +9,38 @@ namespace IncomeFollowUp.Ui.Pages;
 public partial class Settings
 {
     [Inject]
+    public required MonthlyOutcomeService MonthlyOutcomeService { get; set; }
+
+    [Inject]
     public required SettingsService SettingsService { get; set; }
+
+    [Inject]
+    public required IDialogService DialogService { get; set; }
 
     public bool IsLoading { get; set; }
     public SettingsDto SettingsDto { get; set; } = null!;
     public SettingsDto CurrentSettings { get; set; } = null!;
+    public MonthlyOutcomeDto[] MonthlyOutcomes { get; set; } = [];
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
+        
+        MonthlyOutcomes = await MonthlyOutcomeService.GetMonthlyOutcomes();
         SettingsDto = await SettingsService.GetSettings();
-        CurrentSettings = await SettingsService.GetSettings();
+        
+        CurrentSettings = new SettingsDto
+        {
+            DailyRate = SettingsDto.DailyRate,
+            ExpectedMonthlyIncome = SettingsDto.ExpectedMonthlyIncome,
+        };        
+        
         IsLoading = false;
     }
 
     private bool HasChanges => JsonConvert.SerializeObject(SettingsDto) != JsonConvert.SerializeObject(CurrentSettings);
 
-    private void ResetChanges()
+    private void ResetSettings()
     {
         SettingsDto = new SettingsDto
         {
@@ -35,7 +51,7 @@ public partial class Settings
         StateHasChanged();
     }
 
-    private async Task SaveChanges()
+    private async Task SaveSettings()
     {
         IsLoading = true;
 
@@ -48,4 +64,6 @@ public partial class Settings
         };
         IsLoading = false;
     }
+
+    
 }

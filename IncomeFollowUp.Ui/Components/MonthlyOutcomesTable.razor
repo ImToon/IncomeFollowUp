@@ -1,0 +1,31 @@
+@using IncomeFollowUp.Contract
+<MudTable class="mt-10" Items="MonthlyOutcomes" Hover="false">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Monthly expenses</MudText>
+        <MudSpacer />
+        <MudButton OnClick="OpenMonthlyOutcomeCreationDialog" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary">Add monthly expense</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>
+            <MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<MonthlyOutcomeDto, object>(x => x.Name)">Name</MudTableSortLabel>
+        </MudTh>
+         <MudTh>
+            <MudTableSortLabel SortBy="new Func<MonthlyOutcomeDto, object>(x => x.Amount)">Amount</MudTableSortLabel>
+        </MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Amount">@context.Amount€</MudTd>
+        <MudTd DataLabel="Actions">
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" OnClick="() => OpenUpdateDialog(context)" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" OnClick="() => OpenDeleteDialog(context)" />
+        </MudTd>
+    </RowTemplate>
+    <FooterContent>
+        <MudTd />
+        <MudTd>
+            <MudText style="font-weight: bold;">Total: @MonthlyOutcomes.Sum(s => s.Amount)€</MudText>
+        </MudTd>
+    </FooterContent>
+</MudTable>

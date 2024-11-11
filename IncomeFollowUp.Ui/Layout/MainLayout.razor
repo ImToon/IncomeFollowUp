@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider />
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -7,8 +7,13 @@
 <div class="page">
     <MudLayout>
         <MudAppBar Elevation="1">
-            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+            <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" Href="/" />
             <MudSpacer />
+            <MudToggleIconButton @bind-Toggled="_isDarkMode"
+                    ToggledColor="Color.Inherit"
+                    ToggledIcon="@Icons.Material.Filled.LightMode"
+                    Color="Color.Inherit"
+                    Icon="@Icons.Material.Outlined.DarkMode"/>
             <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Inherit" Href="settings" />
         </MudAppBar>
         <MudDrawer @bind-Open="@_open" Variant="@DrawerVariant.Temporary" Elevation="1">
@@ -22,11 +27,7 @@
         </MudDrawer>
         <MudMainContent>
             <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-6">
-                <main>
-            <article class="content px-4">
                 @Body
-            </article>
-        </main>
             </MudContainer>
         </MudMainContent>
     </MudLayout>
@@ -34,9 +35,6 @@
 
 @code{
     private bool _open = false;
-
-    private void ToggleDrawer()
-    {
-        _open = !_open;
-    }
+    private MudTheme _theme = new();
+    private bool _isDarkMode = true;
 }

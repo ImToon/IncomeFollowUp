@@ -15,14 +15,15 @@ public partial class CreateMonthDialog
     [Inject]
     public required NavigationManager NavigationManager { get; set; }
 
+    [Parameter]
+    public int Year { get; set; } = DateTime.Now.Year;
+    public int Month { get; set; } = 1;
     public bool IsLoading { get; set; }
-    public int Month { get; set; }
-    public int Year { get; set; }
 
     private async Task Submit()
     {
         IsLoading = true;
-        await WorkDaysService.GenerateMonth(Month, Year);
+        await WorkDaysService.GenerateMonth(Year, Month);
         IsLoading = false;
         NavigationManager.NavigateTo($"workdays?year={Year}&month={Month}");
         MudDialog.Close(DialogResult.Ok(true));

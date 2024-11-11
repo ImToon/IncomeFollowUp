@@ -1,6 +1,5 @@
 namespace IncomeFollowUp.Contract;
-
-public class WorkDaysSummaryDto
+public class MonthlyWorkDaysSummaryDto
 {
     public int Month { get; set; }
     public int Year { get; set; }

@@ -1,6 +1,6 @@
 <MudDialog>
     <TitleContent>
-        Generate new month
+        Confirm delete
     </TitleContent>
     <DialogContent>
         @if(IsLoading)
@@ -11,12 +11,11 @@
         }
         else
         {
-            <MudNumericField @bind-Value="Month" Label="Month" Variant="Variant.Text" Min="1" Max="12" />
-            <MudNumericField class="mt-5" @bind-Value="Year" Label="Year" Variant="Variant.Text" Min="1900" Max="2100" />
+            <MudText>Do you really want to delete this record ?</MudText>
         }
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Disabled="IsLoading">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="IsLoading">Create</MudButton>
+        <MudButton Color="Color.Error" OnClick="Delete" Disabled="IsLoading">Delete</MudButton>
     </DialogActions>
 </MudDialog>

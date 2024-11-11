@@ -7,10 +7,16 @@ public class WorkDaysService(HttpClient httpClient)
 {
     private const string BASE_URL = "api/WorkDays";
 
-    public async Task<IEnumerable<WorkDaysSummaryDto>> GetSummary(SummaryType summaryType, int? year = null)
+    public async Task<MonthlyWorkDaysSummaryDto[]> GetLatestsMonthsSummary()
     {
-        var workDaysSummaryDto = await httpClient.GetFromJsonAsync<IEnumerable<WorkDaysSummaryDto>>($"{BASE_URL}/summary?summaryType={summaryType}&year={year}") ?? throw new Exception("An error occured while getting work days summary.");
-        return workDaysSummaryDto;
+        var monthlyWorkDaysSummariesDto = await httpClient.GetFromJsonAsync<MonthlyWorkDaysSummaryDto[]>($"{BASE_URL}/summary") ?? throw new Exception("An error occured while getting monthly work days summary.");
+        return monthlyWorkDaysSummariesDto;
+    }
+
+    public async Task<YearlyWorkDaysSummaryDto> GetYearlySummary(int year)
+    {
+        var yearlyWorkDaysSummariesDto = await httpClient.GetFromJsonAsync<YearlyWorkDaysSummaryDto>($"{BASE_URL}/summary/year/{year}") ?? throw new Exception("An error occured while getting early work days summary.");
+        return yearlyWorkDaysSummariesDto;
     }
 
     public async Task<IEnumerable<WorkDayDto>> GetWorkDays(int year, int month)
@@ -25,15 +31,21 @@ public class WorkDaysService(HttpClient httpClient)
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task<int> GetExtraDays()
+    public async Task<int> GetExtraDays(int year)
     {
-        var extraDays = await httpClient.GetFromJsonAsync<int?>($"{BASE_URL}/extradays") ?? throw new Exception("An error occured while getting extra days.");
+        var extraDays = await httpClient.GetFromJsonAsync<int?>($"{BASE_URL}/extradays/year/{year}") ?? throw new Exception("An error occured while getting extra days.");
         return extraDays;
     }
 
-    public async Task GenerateMonth(int month, int year)
+    public async Task GenerateMonth(int year, int month)
     {
         var response = await httpClient.PostAsJsonAsync<IEnumerable<WorkDayDto>?>($"{BASE_URL}/{year}/{month}", null) ?? throw new Exception("An error occured while generating month.");
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task DeleteMonth(int year, int month)
+    {
+        var response = await httpClient.DeleteAsync($"{BASE_URL}/{year}/{month}") ?? throw new Exception("An error occured while deleting month.");
         response.EnsureSuccessStatusCode();
     }
 }
