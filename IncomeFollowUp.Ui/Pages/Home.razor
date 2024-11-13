@@ -30,11 +30,27 @@ else
     }
     else
     {
-        <MudTable Items="YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries" Hover="true" T="MonthlyWorkDaysSummaryDto" OnRowClick="NavigateToWorkDays">
-            <ToolBarContent>
-                <MudSpacer />
-                <MudButton OnClick="GenerateNexMonth" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary">Add next month</MudButton>
-            </ToolBarContent>
+        <div class="d-flex justify-center gap-4">
+            <DashboardCard Text="@($"+ {YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Sum(mwd => mwd.Total)}€")">
+                <ChildContent>
+                    <MudIcon style="font-size: 3rem;" Icon="@Icons.Material.Filled.ShowChart" Color="Color.Success" />
+                </ChildContent>
+            </DashboardCard>
+
+            <DashboardCard Text="@($"- {YearlyWorkDaysSummaryDto.AnnualExpenses}€")">
+                <ChildContent>
+                    <MudIcon style="font-size: 3rem; transform: scale(1, -1);" Icon="@Icons.Material.Filled.ShowChart" Color="Color.Error" />
+                </ChildContent>
+            </DashboardCard>
+
+            <DashboardCard Text="@($"{ExtraDays} day{(ExtraDays > 1 ? "s" : "")}")">
+                <ChildContent>
+                    <MudIcon style="font-size: 3rem;" Icon="@Icons.Material.Filled.WbSunny" Color="Color.Warning" />
+                </ChildContent>
+            </DashboardCard>
+        </div>
+
+        <MudTable class="mt-5" FixedHeader="true" Items="YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries" Hover="true" T="MonthlyWorkDaysSummaryDto" OnRowClick="NavigateToWorkDays">
             <HeaderContent>
                 <MudTh>Month</MudTh>
                 <MudTh>Total</MudTh>
@@ -42,24 +58,12 @@ else
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Month">@context.Date.ToString("MM/yyyy")</MudTd>
-                <MudTd DataLabel="Year">@context.Total€</MudTd>
+                <MudTd DataLabel="Total">@context.Total€</MudTd>
                 <MudTd DataLabel="Actions">
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" OnClick="() => OpenDeleteDialog(context)" />
                 </MudTd>
             </RowTemplate>
         </MudTable>
-
-        <div class="mt-5">
-            <MudText Typo="Typo.h6">Annual expenses : @YearlyWorkDaysSummaryDto.AnnualExpenses€</MudText>
-        </div>
-        
-         <div class="mt-5">
-            <MudText Typo="Typo.h6">Annual incomes : @YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Sum(mwd => mwd.Total)€</MudText>
-        </div>
-    
-        <div class="mt-5">
-            <MudText Typo="Typo.h6">@ExtraDays extra day@(ExtraDays > 1 ? "s" : "") this year</MudText>
-        </div>
     }
 
     <div class="float-button">

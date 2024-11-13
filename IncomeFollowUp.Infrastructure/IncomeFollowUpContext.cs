@@ -11,6 +11,15 @@ public class IncomeFollowUpContext(DbContextOptions options) : DbContext(options
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Settings>().HasData(
+            new Settings
+            {
+                Id = Guid.NewGuid(),
+                DailyRate = 500,
+                ExpectedMonthlyIncome = 10000
+            }
+        );
+
         base.OnModelCreating(modelBuilder);
     }
 }

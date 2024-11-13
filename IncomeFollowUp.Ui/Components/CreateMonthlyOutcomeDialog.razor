@@ -3,20 +3,21 @@
         Add monthly outcome
     </TitleContent>
     <DialogContent>
-        @if(IsLoading)
-        {
-            <div class="d-flex justify-center my-5">
-                <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
-            </div>
-        }
-        else
-        {
-            <MudTextField  @bind-Value="MonthlyOutcomeDto.Name" Label="Name" Variant="Variant.Text"></MudTextField>
-            <MudNumericField class="mt-5" @bind-Value="MonthlyOutcomeDto.Amount" Label="Amount" Variant="Variant.Text" Min="1" />
-        }
+        <MudTextField  @bind-Value="MonthlyOutcomeDto.Name" Label="Name" Variant="Variant.Text" Disabled="IsLoading" />
+        <MudNumericField class="mt-5" @bind-Value="MonthlyOutcomeDto.Amount" Label="Amount" Variant="Variant.Text" Min="1" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.EuroSymbol" Disabled="IsLoading"/>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Disabled="IsLoading">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Create" Disabled="IsLoading">Create</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Create" Disabled="IsLoading">
+            @if (IsLoading)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                <MudText Class="ms-2">Creating</MudText>
+            }
+            else
+            {
+                <MudText>Create</MudText>
+            }
+        </MudButton>
     </DialogActions>
 </MudDialog>

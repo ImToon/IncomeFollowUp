@@ -3,19 +3,20 @@
         Confirm delete
     </TitleContent>
     <DialogContent>
-        @if(IsLoading)
-        {
-            <div class="d-flex justify-center my-5">
-                <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
-            </div>
-        }
-        else
-        {
-            <MudText>Do you really want to delete this record ?</MudText>
-        }
+        <MudText>Do you really want to delete this record ?</MudText>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Disabled="IsLoading">Cancel</MudButton>
-        <MudButton Color="Color.Error" OnClick="Delete" Disabled="IsLoading">Delete</MudButton>
+        <MudButton Color="Color.Error" OnClick="Delete" Disabled="IsLoading">
+            @if (IsLoading)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                <MudText Class="ms-2">Deleting</MudText>
+            }
+            else
+            {
+                <MudText>Delete</MudText>
+            }
+        </MudButton>
     </DialogActions>
 </MudDialog>

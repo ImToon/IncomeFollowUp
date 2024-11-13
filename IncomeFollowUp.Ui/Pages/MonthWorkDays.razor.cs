@@ -10,19 +10,26 @@ public partial class MonthWorkDays
     [Inject]
     public WorkDaysService WorkDaysService { get; set; } = null!;
 
-    [SupplyParameterFromQuery]
-    public int Year { get; set; }
+    [Inject]
+    public required NavigationManager NavigationManager { get; set; }
 
     [SupplyParameterFromQuery]
-    public int Month { get; set; }
+    public required int Year { get; set; }
+
+    [SupplyParameterFromQuery]
+    public required  int Month { get; set; }
     
     public List<List<WorkDayDto>> WorkDaysByWeek { get; set; } = [];
 
     public List<UpdateWorkDayDto> WorkDaysUpdates { get; set; } = [];
     public bool IsLoading { get; set; }
+    private DateTime _date;
+    private readonly string[] Days = ["Mon", "Tues", "Wed", "Thur", "Fri"];
 
     protected override async Task OnInitializedAsync()
     {
+        _date = new DateTime(Year, Month, 1);
+
         var workDaysDtos = await WorkDaysService.GetWorkDays(Year, Month);
 
         WorkDaysByWeek = workDaysDtos.GroupBy(d => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(d.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday))
@@ -62,7 +69,6 @@ public partial class MonthWorkDays
 
         StateHasChanged();
     }
-
     private void ResetChanges()
     {
         foreach(var week in WorkDaysByWeek)

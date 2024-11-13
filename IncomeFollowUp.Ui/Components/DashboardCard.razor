@@ -1,0 +1,16 @@
+<MudCard Style="height:150px; width: 150px;">
+    <MudCardContent class="d-flex flex-column justify-space-between">
+        @ChildContent
+        <div style="text-align: end;">
+            <MudText Typo="Typo.h6">@Text</MudText>
+        </div>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter]
+    public required string Text { get; set;}
+
+    [Parameter]
+    public required RenderFragment ChildContent { get; set; }
+}

@@ -1,0 +1,14 @@
+.month-work-day-title {
+    width: 75px !important;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 600px) {
+    .month-work-day-title {
+        width: 50px !important;
+    }
+}

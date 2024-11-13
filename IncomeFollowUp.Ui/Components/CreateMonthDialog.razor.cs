@@ -16,16 +16,23 @@ public partial class CreateMonthDialog
     public required NavigationManager NavigationManager { get; set; }
 
     [Parameter]
-    public int Year { get; set; } = DateTime.Now.Year;
-    public int Month { get; set; } = 1;
+    public DateTime Date { get; set; }
     public bool IsLoading { get; set; }
+    private DateTime? _date;
+
+    protected override void OnInitialized()
+    {
+        _date = Date;
+        base.OnInitialized();
+    }
 
     private async Task Submit()
     {
+        Date = _date!.Value;
         IsLoading = true;
-        await WorkDaysService.GenerateMonth(Year, Month);
+        await WorkDaysService.GenerateMonth(Date.Year, Date.Month);
         IsLoading = false;
-        NavigationManager.NavigateTo($"workdays?year={Year}&month={Month}");
+        NavigationManager.NavigateTo($"workdays?year={Date.Year}&month={Date.Month}");
         MudDialog.Close(DialogResult.Ok(true));
     }
 

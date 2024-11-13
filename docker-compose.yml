@@ -1,28 +1,36 @@
 version: '3.8'
 
 services:
+
+  income-follow-up-db:
+    container_name: income-follow-up-db-container
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=IncomeFollowUp
+      - MYSQL_ROOT_PASSWORD=<Your_password>
+    ports:
+      - "3307:3306"
+    healthcheck: # Check if the database is ready to accept connections
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   income-follow-up-app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: income-follow-up-container
+    container_name: income-follow-up-app-container
     depends_on:
-      - income-follow-up-sqlserver
+      income-follow-up-db:
+        condition: service_healthy # Wait for the database to be ready otherwise the app will fail to start when trying to connect to the database before it is ready
     ports:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=income-follow-up-sqlserver;Database=IncomeFollowUp;User=sa;Password=Your_password123;TrustServerCertificate=True
-  income-follow-up-sqlserver:
-    container_name: income-follow-up-sqlserver-container
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=Your_password123
-    ports:
-      - "1433:1433"
-    volumes:
-      - mssql_data:/var/opt/mssql
+      - ConnectionStrings__DefaultConnection=Server=income-follow-up-db;Port=3306;Database=IncomeFollowUp;User=root;Password=<Your_password>;
 
 volumes:
-  mssql_data:
+  mysql_data:

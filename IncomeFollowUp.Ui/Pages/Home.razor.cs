@@ -29,7 +29,7 @@ public partial class Home
         IsLoading = false;
     }
 
-     private async Task PreviousYear()
+    private async Task PreviousYear()
     {
         Year--;
         await FetchYearlySummary();
@@ -49,11 +49,18 @@ public partial class Home
         IsLoading = false;
     }
 
-     private async void GenerateNexMonth()
+    private Task<IDialogReference> OpenMonthCreationDialog()
     {
-        var nextMonth = YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.OrderByDescending(mwd => mwd.Date).FirstOrDefault()?.Date.AddMonths(1) ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-        await WorkDaysService.GenerateMonth(nextMonth.Year, nextMonth.Month);
-        NavigationManager.NavigateTo($"workdays?year={nextMonth.Year}&month={nextMonth.Month}");
+        var date = YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.OrderByDescending(mwd => mwd.Date).FirstOrDefault()?.Date.AddMonths(1) ?? new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+        var parameters = new DialogParameters<CreateMonthDialog>
+        {
+            { x => x.Date, date },
+        };
+
+        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true };
+
+        return DialogService.ShowAsync<CreateMonthDialog>("Create month", parameters, options);
     }
 
     private async Task OpenDeleteDialog(MonthlyWorkDaysSummaryDto workDaysSummaryDto)
@@ -74,18 +81,6 @@ public partial class Home
             YearlyWorkDaysSummaryDto.AnnualExpenses = YearlyWorkDaysSummaryDto.AnnualExpenses / nbMonths * (nbMonths - 1);
             YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries = YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Where(x => x.Date != workDaysSummaryDto.Date).ToArray();
         }
-    }
-
-    private Task<IDialogReference> OpenMonthCreationDialog()
-    {
-        var parameters = new DialogParameters<CreateMonthDialog>
-        {
-            { x => x.Year, Year },
-        };
-
-        var options = new DialogOptions { CloseOnEscapeKey = true, MaxWidth = MaxWidth.Medium, FullWidth = true };
-
-        return DialogService.ShowAsync<CreateMonthDialog>("Create month", parameters, options);
     }
 
     private void NavigateToWorkDays(TableRowClickEventArgs<MonthlyWorkDaysSummaryDto> eventArgs)

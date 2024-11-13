@@ -2,7 +2,7 @@
 
 This project is a **.NET-based web application** designed to help freelancers monitor their monthly income. It consists of two separate applications:
 
-1. **REST API** - Backend service built with .NET Core, providing endpoints for managing user settings, workdays, and income statistics.
+1. **REST API** - Backend service built with .NET 8, providing endpoints for managing user settings, workdays, and income statistics.
 2. **Blazor Web Application** - Frontend built with Blazor, providing an interactive UI to manage workdays, view monthly income, and visualize past earnings.
 
 ## Features
@@ -10,10 +10,10 @@ This project is a **.NET-based web application** designed to help freelancers mo
 Coming soon
 
 ## Tech Stack
-- **Backend**: .NET Core REST API.
+- **Backend**: .NET 8 REST API.
 - **Frontend**: Blazor WebAssembly.
-- **Database**: SQL Server (Dockerized).
-- **Docker**: Both API and web app are containerized using Docker and managed through Docker Compose.
+- **Database**: MySql.
+- **Docker**: Both API (with database) and web app are containerized using Docker and managed through Docker Compose.
 
 ## Setup Instructions
 1. Clone the repository.
@@ -27,4 +27,4 @@ This will start:
 
 - REST API
 - Blazor Web App
-- SQL Server
+- MySql Server

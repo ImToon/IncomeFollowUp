@@ -3,20 +3,22 @@
         Generate new month
     </TitleContent>
     <DialogContent>
-        @if(IsLoading)
-        {
-            <div class="d-flex justify-center my-5">
-                <MudProgressCircular Color="Color.Primary" Indeterminate="true"/>
-            </div>
-        }
-        else
-        {
-            <MudNumericField @bind-Value="Month" Label="Month" Variant="Variant.Text" Min="1" Max="12" />
-            <MudNumericField class="mt-5" @bind-Value="Year" Label="Year" Variant="Variant.Text" Min="1900" Max="2100" />
-        }
+        <div class="my-2">
+            <MudDatePicker @bind-Date="_date" OpenTo="OpenTo.Month" DateFormat="MM/yyyy" FixDay="1" Disabled="IsLoading" />
+        </div>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel" Disabled="IsLoading">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="IsLoading">Create</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="IsLoading">
+            @if (IsLoading)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+                <MudText Class="ms-2">Creating</MudText>
+            }
+            else
+            {
+                <MudText>Create</MudText>
+            }
+        </MudButton>
     </DialogActions>
 </MudDialog>

@@ -8,6 +8,10 @@
         width: 50px !important;
         height: 50px !important;
     }
+
+    .mud-table-foot {
+        display: table-footer-group !important;
+    }
 }
 
 html, body {

@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IncomeFollowUp.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<IncomeFollowUpContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        services.AddDbContext<IncomeFollowUpContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
     }
 }
