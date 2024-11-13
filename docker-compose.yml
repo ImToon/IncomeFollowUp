@@ -4,17 +4,18 @@ services:
 
   income-follow-up-db:
     container_name: income-follow-up-db-container
-    image: mysql:latest
+    image: mariadb:latest
     environment:
       - MYSQL_DATABASE=IncomeFollowUp
       - MYSQL_ROOT_PASSWORD=<Your_password>
     ports:
       - "3307:3306"
     healthcheck: # Check if the database is ready to accept connections
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 3
     volumes:
       - mysql_data:/var/lib/mysql
 
