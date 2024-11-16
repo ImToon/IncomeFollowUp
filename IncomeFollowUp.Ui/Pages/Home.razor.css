@@ -4,3 +4,9 @@
     right: 20px;
     z-index: 1000;
 }
+
+@media only screen and (max-width: 600px) {
+    .cards-container {
+        flex-direction: column;
+    }
+}

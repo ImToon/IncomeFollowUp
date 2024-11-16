@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using ChartJs.Blazor
 @using IncomeFollowUp.Contract
+@using IncomeFollowUp.Ui.Helpers
 
 <div class="d-flex justify-center mb-5">
     <MudButton OnClick="PreviousYear" Disabled="IsLoading">
@@ -30,16 +31,16 @@ else
     }
     else
     {
-        <div class="d-flex justify-center gap-4">
-            <DashboardCard Text="@($"+ {YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Sum(mwd => mwd.Total)}€")">
+        <div class="cards-container d-flex justify-center gap-4">
+            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Sum(mwd => mwd.Total).ToString("C")}")">
                 <ChildContent>
-                    <MudIcon style="font-size: 3rem;" Icon="@Icons.Material.Filled.ShowChart" Color="Color.Success" />
+                    <MudIcon style="@($"color:{ColorHelper.Green};font-size: 3rem;")" Icon="@Icons.Material.Filled.ShowChart" />
                 </ChildContent>
             </DashboardCard>
 
-            <DashboardCard Text="@($"- {YearlyWorkDaysSummaryDto.AnnualExpenses}€")">
+            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.AnnualExpenses.ToString("C")}")">
                 <ChildContent>
-                    <MudIcon style="font-size: 3rem; transform: scale(1, -1);" Icon="@Icons.Material.Filled.ShowChart" Color="Color.Error" />
+                    <MudIcon style="@($"color:{ColorHelper.Red};font-size: 3rem;transform: scale(1, -1);")" Icon="@Icons.Material.Filled.ShowChart" />
                 </ChildContent>
             </DashboardCard>
 
@@ -50,7 +51,7 @@ else
             </DashboardCard>
         </div>
 
-        <MudTable class="mt-5" FixedHeader="true" Items="YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries" Hover="true" T="MonthlyWorkDaysSummaryDto" OnRowClick="NavigateToWorkDays">
+        <MudTable class="mt-5 mb-5" FixedHeader="true" Items="YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries" Hover="true" T="MonthlyWorkDaysSummaryDto" OnRowClick="NavigateToWorkDays">
             <HeaderContent>
                 <MudTh>Month</MudTh>
                 <MudTh>Total</MudTh>
@@ -58,7 +59,7 @@ else
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Month">@context.Date.ToString("MM/yyyy")</MudTd>
-                <MudTd DataLabel="Total">@context.Total€</MudTd>
+                <MudTd DataLabel="Total">@context.Total.ToString("C")</MudTd>
                 <MudTd DataLabel="Actions">
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" OnClick="() => OpenDeleteDialog(context)" />
                 </MudTd>

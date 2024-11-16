@@ -1,4 +1,5 @@
 @page "/workdays"
+@using IncomeFollowUp.Ui.Helpers
 
 @if(IsLoading)
 {
@@ -16,13 +17,13 @@ else
         <div class="d-flex justify-center gap-4 mt-5">
              <DashboardCard Text="@($"{TotalMonth} €")">
                 <ChildContent>
-                    <MudIcon style="font-size: 3rem;" Icon="@Icons.Material.Filled.ShowChart" Color="Color.Success" />
+                    <MudIcon style="@($"color:{ColorHelper.Green};font-size: 3rem;")" Icon="@Icons.Material.Filled.ShowChart"/>
                 </ChildContent>
             </DashboardCard>
 
              <DashboardCard Text="@($"{TotalWorkDays} days")">
                 <ChildContent>
-                    <MudIcon style="font-size: 3rem;" Icon="@Icons.Material.Filled.WorkOutline" Color="Color.Success" />
+                    <MudIcon style="@($"color:{ColorHelper.Green};font-size: 3rem;")" Icon="@Icons.Material.Filled.WorkOutline"/>
                 </ChildContent>
             </DashboardCard>
         </div>
@@ -56,7 +57,7 @@ else
                                 <MudPaper
                                     Elevation="1"
                                     onclick="@(() => SwitchWorkDay(day))"
-                                    Style="@($"color:{Colors.Gray.Lighten5}; background:{(day.IsWorkDay ? Colors.Green.Darken2 : Colors.Red.Darken2)}; height: 100%;")"
+                                    Style="@($"color:{ColorHelper.Gray}; background:{(day.IsWorkDay ? ColorHelper.Green : ColorHelper.Red)}; height: 100%;")"
                                 >
                                     <div style="font-weight: bold;" class="pl-2 pt-2">@day.Date.Day</div>
                                 </MudPaper>

@@ -16,7 +16,7 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Amount">@context.Amount€</MudTd>
+        <MudTd DataLabel="Amount">@context.Amount.ToString("C")</MudTd>
         <MudTd DataLabel="Actions">
             <MudIconButton Icon="@Icons.Material.Filled.Edit" aria-label="edit" OnClick="() => OpenUpdateDialog(context)" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" aria-label="delete" OnClick="() => OpenDeleteDialog(context)" />
@@ -25,7 +25,7 @@
     <FooterContent>
         <MudTd />
         <MudTd>
-            <MudText style="font-weight: bold;">Total: @MonthlyOutcomes.Sum(s => s.Amount)€</MudText>
+            <MudText style="font-weight: bold;">Total: @MonthlyOutcomes.Sum(s => s.Amount).ToString("C")</MudText>
         </MudTd>
     </FooterContent>
 </MudTable>
