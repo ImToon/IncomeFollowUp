@@ -29,8 +29,7 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var dbContext = services.GetRequiredService<IncomeFollowUpContext>();
-    dbContext.Database.Migrate();
+    await DbSeeder.SeedAsync(services);
 }
 
 app.UseExceptionHandler("/error");

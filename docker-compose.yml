@@ -1,7 +1,4 @@
-version: '3.8'
-
 services:
-
   income-follow-up-db:
     container_name: income-follow-up-db-container
     image: mariadb:latest

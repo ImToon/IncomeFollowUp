@@ -16,4 +16,10 @@
     <ProjectReference Include="..\IncomeFollowUp.Domain\IncomeFollowUp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Seed\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
