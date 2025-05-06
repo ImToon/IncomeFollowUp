@@ -5,6 +5,7 @@ services:
   income-follow-up-db:
     container_name: income-follow-up-db-container
     image: mariadb:latest
+    restart: always
     environment:
       - MYSQL_DATABASE=IncomeFollowUp
       - MYSQL_ROOT_PASSWORD=<Your_password>
@@ -27,10 +28,12 @@ services:
     depends_on:
       income-follow-up-db:
         condition: service_healthy # Wait for the database to be ready otherwise the app will fail to start when trying to connect to the database before it is ready
+    restart: always
     ports:
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_URLS=http://192.168.1.58:8080
       - ConnectionStrings__DefaultConnection=Server=income-follow-up-db;Port=3306;Database=IncomeFollowUp;User=root;Password=<Your_password>;
 
 volumes:

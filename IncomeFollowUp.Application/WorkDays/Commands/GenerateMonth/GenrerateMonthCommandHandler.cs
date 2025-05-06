@@ -13,7 +13,17 @@ public class GenrerateMonthCommandHandler(IncomeFollowUpContext dbContext) : IRe
         var currentSettings = await dbContext.Settings.FirstAsync(cancellationToken);
         var workDays = DateUtils.GetWeekdaysOfMonth(request.Year, request.Month).Select(date => new WorkDay { Date = date, IsWorkDay = true, DailyRate = currentSettings.DailyRate }).ToList();
 
-        dbContext.WorkDays.AddRange(workDays);
+        int monthAmount = workDays.Count * currentSettings.DailyRate;
+        var monthlyIncome = new MonthlyIncome
+        {
+            Year = request.Year,
+            Month = request.Month,
+            ExpectedAmount = monthAmount,
+            ActualAmount = monthAmount,
+            WorkDays = workDays
+        };
+
+        dbContext.MonthlyIncomes.Add(monthlyIncome);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return workDays;

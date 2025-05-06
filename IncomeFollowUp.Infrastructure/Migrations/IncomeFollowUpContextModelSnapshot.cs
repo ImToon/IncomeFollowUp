@@ -22,6 +22,29 @@ namespace IncomeFollowUp.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("IncomeFollowUp.Domain.MonthlyIncome", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("ActualAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExpectedAmount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MonthlyIncomes");
+                });
+
             modelBuilder.Entity("IncomeFollowUp.Domain.MonthlyOutcome", b =>
                 {
                     b.Property<Guid>("Id")
@@ -59,7 +82,7 @@ namespace IncomeFollowUp.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b543906a-558f-4e5b-9ecd-9e17475cb3b9"),
+                            Id = new Guid("d080520d-80dd-42cd-8353-828741f7ac37"),
                             DailyRate = 500,
                             ExpectedMonthlyIncome = 10000
                         });
@@ -80,9 +103,30 @@ namespace IncomeFollowUp.Infrastructure.Migrations
                     b.Property<bool>("IsWorkDay")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<Guid>("MonthlyIncomeId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("MonthlyIncomeId");
+
                     b.ToTable("WorkDays");
+                });
+
+            modelBuilder.Entity("IncomeFollowUp.Domain.WorkDay", b =>
+                {
+                    b.HasOne("IncomeFollowUp.Domain.MonthlyIncome", "MonthlyIncome")
+                        .WithMany("WorkDays")
+                        .HasForeignKey("MonthlyIncomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonthlyIncome");
+                });
+
+            modelBuilder.Entity("IncomeFollowUp.Domain.MonthlyIncome", b =>
+                {
+                    b.Navigation("WorkDays");
                 });
 #pragma warning restore 612, 618
         }

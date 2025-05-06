@@ -10,27 +10,72 @@ public class GetYearlyWorkDaysSummaryQueryHandler(IncomeFollowUpContext dbContex
 {
     public async Task<GetYearlyWorkDaysSummaryResponse> Handle(GetYearlyWorkDaysSummaryQuery request, CancellationToken cancellationToken)
     {
-        WorkDay[] workDays = [];
+        MonthlyIncome[] monthlyIncomes = await dbContext.MonthlyIncomes.Where(mi => mi.Year == request.Year).ToArrayAsync(cancellationToken);
+        double annualExpenses = await dbContext.MonthlyOutcomes.SumAsync(mo => mo.Amount, cancellationToken) * monthlyIncomes.Length;
 
-        workDays = await dbContext.WorkDays.Where(w => w.Date.Year == request.Year && w.IsWorkDay).ToArrayAsync(cancellationToken);
-        
-        var workDaysMonthSummaries = workDays
-            .OrderBy(wd => wd.Date)
-            .GroupBy(wd => wd.Date.Month)
-            .Select(group => new MonthlyWorkDaysSummary
+        var workDaysMonthSummaries = monthlyIncomes
+            .OrderBy(mi => mi.Month)
+            .Select(mi => new MonthlyWorkDaysSummary
             {
-                Month = group.Key,
-                Year = group.First().Date.Year,
-                Total = group.Sum(g => g.DailyRate)
+                Month = mi.Month,
+                Year = mi.Year,
+                Total = mi.ActualAmount
             })
             .ToArray();
 
-        var monthlyExpenses = await dbContext.MonthlyOutcomes.SumAsync(mo => mo.Amount, cancellationToken);
+        var settings = await dbContext.Settings.FirstAsync(cancellationToken);
+        var totalWorkingDays = GetWorkingDaysInYear(request.Year);
+        var totalAvailableExtraDays = (totalWorkingDays * settings.DailyRate - (12 * settings.ExpectedMonthlyIncome)) / settings.DailyRate;
+        var totalUsedExtraDays = monthlyIncomes
+            .Sum(mi =>
+            {
+                var totalExpected = mi.ExpectedAmount;
+                var totalMonth = mi.ActualAmount;
 
-        return new GetYearlyWorkDaysSummaryResponse 
+                var total = totalExpected > settings.ExpectedMonthlyIncome ? totalExpected : settings.ExpectedMonthlyIncome;
+
+                var outcomeDifference = total - totalMonth;
+
+                return outcomeDifference != 0 ? outcomeDifference / settings.DailyRate : 0;
+            });
+
+        var remainingVacation = totalAvailableExtraDays - totalUsedExtraDays;
+
+        return new GetYearlyWorkDaysSummaryResponse
         {
             MonthlyWorkDaysSummaries = workDaysMonthSummaries,
-            AnnualExpenses = monthlyExpenses * workDaysMonthSummaries.Length
+            TotalIncome = monthlyIncomes.Sum(mi => mi.ActualAmount),
+            TotalOutcome = annualExpenses,
+            RemainingVacation = remainingVacation
         };
+    }
+
+    private static int TotalWorkDaysByMonth(int year, int month)
+    {
+        var startDate = new DateTime(year, month, 1);
+        var endDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+        int workingDays = 0;
+
+        for (var date = startDate; date <= endDate; date = date.AddDays(1))
+        {
+            if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
+            {
+                workingDays++;
+            }
+        }
+
+        return workingDays;
+    }
+
+    private static int GetWorkingDaysInYear(int year)
+    {
+        int workingDays = 0;
+
+        for (int month = 1; month <= 12; month++)
+        {
+            workingDays += TotalWorkDaysByMonth(year, month);
+        }
+
+        return workingDays;
     }
 }

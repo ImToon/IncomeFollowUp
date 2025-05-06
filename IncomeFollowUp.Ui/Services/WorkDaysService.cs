@@ -25,6 +25,12 @@ public class WorkDaysService(HttpClient httpClient)
         return workDaysDto;
     }
 
+    public async Task<double> GetBankAccountStatus()
+    {
+        var bankAccountStatus = await httpClient.GetFromJsonAsync<double?>($"{BASE_URL}/bankAccountStatus") ?? throw new Exception("An error occured while getting bank account status.");
+        return bankAccountStatus;
+    }
+
     public async Task UpdateWorkDay(IEnumerable<UpdateWorkDayDto> updateWorkDayDtos)
     {
         var response = await httpClient.PutAsJsonAsync($"{BASE_URL}", updateWorkDayDtos) ?? throw new Exception("An error occured while updating work days.");

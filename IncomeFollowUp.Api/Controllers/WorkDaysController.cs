@@ -9,6 +9,7 @@ using IncomeFollowUp.Contract;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using IncomeFollowUp.Application.WorkDays.Queries.GetBankAccountStatus;
 
 namespace IncomeFollowUp.Api.Controllers;
 
@@ -18,7 +19,7 @@ public class WorkDaysController(ISender sender, IMapper mapper) : ControllerBase
 {
     [HttpGet("")]
     [ProducesResponseType(statusCode: 200, type: typeof(IEnumerable<WorkDayDto>))]
-    public async Task<IActionResult> GetWorkDays([FromQuery]int year, [FromQuery]int month)
+    public async Task<IActionResult> GetWorkDays([FromQuery] int year, [FromQuery] int month)
     {
         var workDays = await sender.Send(new GetWorkDaysQuery { Year = year, Month = month });
         return Ok(mapper.Map<IEnumerable<WorkDayDto>>(workDays));
@@ -44,8 +45,16 @@ public class WorkDaysController(ISender sender, IMapper mapper) : ControllerBase
     [ProducesResponseType(statusCode: 200, type: typeof(int))]
     public async Task<IActionResult> GetExtraDays(int year)
     {
-        var vacation = await sender.Send(new GetExtraDaysQuery{ Year = year });
+        var vacation = await sender.Send(new GetExtraDaysQuery { Year = year });
         return Ok(vacation);
+    }
+
+    [HttpGet("bankAccountStatus")]
+    [ProducesResponseType(statusCode: 200, type: typeof(double))]
+    public async Task<IActionResult> GetBankAccountStatus()
+    {
+        var bankAccountStatus = await sender.Send(new GetBankAccountStatusQuery());
+        return Ok(bankAccountStatus);
     }
 
     [HttpPost("{year:int}/{month:int}")]
@@ -66,7 +75,7 @@ public class WorkDaysController(ISender sender, IMapper mapper) : ControllerBase
 
     [HttpPut]
     [ProducesResponseType(statusCode: 200, type: typeof(IEnumerable<WorkDayDto>))]
-    public async Task<IActionResult> UpdateWorkDays([FromBody]IEnumerable<UpdateWorkDayDto> workDaysUpdates)
+    public async Task<IActionResult> UpdateWorkDays([FromBody] IEnumerable<UpdateWorkDayDto> workDaysUpdates)
     {
         var updateWorkDayCommands = mapper.Map<IEnumerable<UpdateWorkDayCommand>>(workDaysUpdates);
         var workDays = await sender.Send(new UpdateWorkDaysCommand { UpdateWorkDayCommands = updateWorkDayCommands });

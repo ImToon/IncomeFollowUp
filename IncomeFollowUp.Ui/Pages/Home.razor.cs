@@ -20,32 +20,32 @@ public partial class Home
     public bool IsLoading { get; set; }
     public int Year { get; set; } = DateTime.Now.Year;
     private YearlyWorkDaysSummaryDto YearlyWorkDaysSummaryDto { get; set; } = new();
-    public int ExtraDays { get; set; }
+    public double BankAccountStatus { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         IsLoading = true;
-        await FetchYearlySummary(); 
+        await LoadData(); 
         IsLoading = false;
     }
 
     private async Task PreviousYear()
     {
         Year--;
-        await FetchYearlySummary();
+        await LoadData();
     }
 
     private async Task NextYear()
     {
         Year++;
-        await FetchYearlySummary();
+        await LoadData();
     }
 
-    private async Task FetchYearlySummary()
+    private async Task LoadData()
     {
         IsLoading = true;
-        ExtraDays = await WorkDaysService.GetExtraDays(Year);       
         YearlyWorkDaysSummaryDto = await WorkDaysService.GetYearlySummary(Year);
+        BankAccountStatus = await WorkDaysService.GetBankAccountStatus();
         IsLoading = false;
     }
 
@@ -77,9 +77,8 @@ public partial class Home
 
         if (result is not null && !result.Canceled)
         {
-            var nbMonths = YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Length;
-            YearlyWorkDaysSummaryDto.AnnualExpenses = YearlyWorkDaysSummaryDto.AnnualExpenses / nbMonths * (nbMonths - 1);
-            YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries = YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Where(x => x.Date != workDaysSummaryDto.Date).ToArray();
+            await LoadData();
+
         }
     }
 

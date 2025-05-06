@@ -32,21 +32,27 @@ else
     else
     {
         <div class="cards-container d-flex justify-center gap-4">
-            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.MonthlyWorkDaysSummaries.Sum(mwd => mwd.Total).ToString("C")}")">
+            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.TotalIncome.ToString("C")}")">
                 <ChildContent>
                     <MudIcon style="@($"color:{ColorHelper.Green};font-size: 3rem;")" Icon="@Icons.Material.Filled.ShowChart" />
                 </ChildContent>
             </DashboardCard>
 
-            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.AnnualExpenses.ToString("C")}")">
+            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.TotalOutcome.ToString("C")}")">
                 <ChildContent>
                     <MudIcon style="@($"color:{ColorHelper.Red};font-size: 3rem;transform: scale(1, -1);")" Icon="@Icons.Material.Filled.ShowChart" />
                 </ChildContent>
             </DashboardCard>
 
-            <DashboardCard Text="@($"{ExtraDays} day{(ExtraDays > 1 ? "s" : "")}")">
+            <DashboardCard Text="@($"{YearlyWorkDaysSummaryDto.RemainingVacation} day{(YearlyWorkDaysSummaryDto.RemainingVacation > 1 ? "s" : "")}")">
                 <ChildContent>
                     <MudIcon style="font-size: 3rem;" Icon="@Icons.Material.Filled.WbSunny" Color="Color.Warning" />
+                </ChildContent>
+            </DashboardCard>
+
+            <DashboardCard Text="@($"{BankAccountStatus.ToString("C")}")">
+                <ChildContent>
+                    <MudIcon style="@($"color:{ColorHelper.Green};font-size: 3rem;")" Icon="@Icons.Material.Filled.ShowChart" />
                 </ChildContent>
             </DashboardCard>
         </div>
