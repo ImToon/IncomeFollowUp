@@ -21,11 +21,6 @@ public class ImportDataCommandHandler(IncomeFollowUpContext dbContext) : IReques
 
         if (request.MonthlyIncomes != null && request.MonthlyIncomes.Count != 0)
         {
-            foreach (var income in request.MonthlyIncomes)
-            {
-                income.WorkDays = [.. request.WorkDays?.Where(wd => wd.MonthlyIncomeId == income.Id) ?? []];
-            }
-            
             await _dbContext.MonthlyIncomes.AddRangeAsync(request.MonthlyIncomes, cancellationToken);
         }
 

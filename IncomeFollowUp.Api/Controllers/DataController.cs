@@ -19,11 +19,11 @@ public class DataController(IMapper mapper, ISender sender) : ControllerBase
     public async Task<IActionResult> Export()
     {
         var result = await _sender.Send(new ExportDataCommand());
-        return Ok(_mapper.Map<ExportDataDto>(result));
+        return Ok(_mapper.Map<SyncDataDto>(result));
     }
 
     [HttpPost("import")]
-    public async Task<IActionResult> Import([FromBody] ImportDataDto data)
+    public async Task<IActionResult> Import([FromBody] SyncDataDto data)
     {
         await _sender.Send(_mapper.Map<ImportDataCommand>(data));
         return Ok();
