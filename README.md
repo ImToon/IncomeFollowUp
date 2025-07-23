@@ -34,7 +34,7 @@ This will start:
 
 If you want to seed your database for the Settings and your Monthly outcomes, You can add these 2 files inside a Seed folder in the Infrastructure project :
 
-1. Seed/Settings.json
+1. `Seed/Settings.json`
 
 ```json
 {
@@ -44,7 +44,7 @@ If you want to seed your database for the Settings and your Monthly outcomes, Yo
 }
 ```
 
-1. Seed/MonthlyOutcomes.json
+2. `Seed/MonthlyOutcomes.json`
 
 ```json
 [
