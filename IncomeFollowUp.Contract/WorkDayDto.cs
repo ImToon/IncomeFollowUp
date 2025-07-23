@@ -6,4 +6,5 @@ public class WorkDayDto
     public DateTime Date { get; set; }
     public bool IsWorkDay { get; set; }
     public int DailyRate { get; set; }
+    public Guid MonthlyIncomeId { get; set; }
 }
