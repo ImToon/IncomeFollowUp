@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -17,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IncomeFollowUp.Infrastructure\IncomeFollowUp.Infrastructure.csproj" />
+    <ProjectReference
+      Include="..\IncomeFollowUp.Infrastructure\IncomeFollowUp.Infrastructure.csproj" />
     <ProjectReference Include="..\IncomeFollowUp.Application\IncomeFollowUp.Application.csproj" />
     <ProjectReference Include="..\IncomeFollowUp.Contract\IncomeFollowUp.Contract.csproj" />
     <ProjectReference Include="..\IncomeFollowUp.Ui\IncomeFollowUp.Ui.csproj" />
