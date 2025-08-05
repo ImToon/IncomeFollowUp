@@ -23,6 +23,6 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 COPY --from=build-env /App/IncomeFollowUp.Api/out .
-ENV ASPNETCORE_URLS=http://+:8080
-EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:7070
+EXPOSE 7070
 ENTRYPOINT ["dotnet", "IncomeFollowUp.Api.dll"]
